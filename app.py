@@ -31,11 +31,16 @@ if st.button("Generate Complete Strategy"):
         shared_state_notebook = f"=========================================\n🚀 FOUNDERAI: STARTUP STRATEGY BLUEPRINT\n=========================================\n\nInitial Startup Concept: {user_prompt}\n\n-----------------------------------------\n"
         status_box = st.empty()
         
+        # We will keep track of each individual agent's report text to put into tabs later
+        agent_outputs_dict = {}
+        
         if use_simulation:
             for agent_name, fixed_text in agent_roles.items():
                 status_box.info(f"⚙️ {agent_name} is processing data matrix...")
                 time.sleep(0.3) 
-                shared_state_notebook += f"👔 {agent_name} Report\n- {fixed_text}\n\n"
+                report_content = f"- {fixed_text}"
+                shared_state_notebook += f"👔 {agent_name} Report\n{report_content}\n\n"
+                agent_outputs_dict[agent_name] = report_content
         else:
             if not api_key or api_key.strip() == "":
                 st.error("❌ API key empty! Please check your .env file or enable Demonstration Mode above.")
@@ -57,6 +62,7 @@ if st.button("Generate Complete Strategy"):
                         agent_output = response_data['candidates'][0]['content']['parts'][0]['text']
                         agent_output = agent_output.replace('•', '-').replace('▪', '-').replace('◦', '-')
                         shared_state_notebook += f"👔 {agent_name} Report\n{agent_output}\n\n"
+                        agent_outputs_dict[agent_name] = agent_output
                     else:
                         error_msg = response_data.get('error', {}).get('message', 'Billing/Project activation required.')
                         st.error(f"❌ Google Server Response: {error_msg}")
@@ -68,13 +74,29 @@ if st.button("Generate Complete Strategy"):
         status_box.empty()
         st.success("✅ Success! Your multi-agent dossier has compiled.")
         
-        # Display the blueprint directly on screen
         st.subheader("📄 Your Generated Startup Dossier Blueprint")
-        st.markdown(shared_state_notebook)
+        
+        # 🔥 NEW BEAUTIFUL UI SECTION WITH TABS AND BORDER CARDS 🔥
+        tabs = st.tabs([
+            "💻 Tech Requirements", 
+            "⚖️ Risk & Validation", 
+            "📈 Market Size", 
+            "🎯 Competition",
+            "💰 Business Model",
+            "📊 Costs",
+            "📣 Go-To-Market",
+            "🚀 Pitch Outline"
+        ])
+        
+        # Map our collected agent texts directly into individual tab cards
+        for index, (agent_name, output_text) in enumerate(agent_outputs_dict.items()):
+            with tabs[index]:
+                with st.container(border=True):
+                    st.markdown(f"### {agent_name}")
+                    st.markdown(output_text)
         
         st.markdown("---")
         
-        # ADDED DOWNLOAD ACTION HOOK FOR THE CLIENT:
         st.download_button(
             label="📥 Download Strategy Blueprint (.txt File)",
             data=shared_state_notebook,
