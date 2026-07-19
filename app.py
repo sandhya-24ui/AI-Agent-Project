@@ -89,11 +89,6 @@ st.markdown("""
 st.markdown("""
     <div class="nav-banner">
         <h1>🎓 FounderAI – AI Agent</h1>
-        <div class="nav-links">
-            <span class="nav-active">Home</span>
-            <span>Register</span>
-            <span>Login</span>
-        </div>
     </div>
 """, unsafe_allow_html=True)
 
@@ -183,7 +178,6 @@ st.markdown("""
 st.markdown("""
     <div class="footer-section">
         © 2026 FounderAI – AI Agent Group<br>
-        <strong>Developed by Your Name</strong><br>
         B.Tech CSE (Artificial Intelligence)<br>
         Madanapalle Institute of Technology & Science
     </div>
