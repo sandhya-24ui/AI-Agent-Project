@@ -63,6 +63,7 @@ if st.button("Generate Complete Strategy"):
                         agent_output = agent_output.replace('•', '-').replace('▪', '-').replace('◦', '-')
                         shared_state_notebook += f"👔 {agent_name} Report\n{agent_output}\n\n"
                         agent_outputs_dict[agent_name] = agent_output
+                        time.sleep(2)
                     else:
                         error_msg = response_data.get('error', {}).get('message', 'Billing/Project activation required.')
                         st.error(f"❌ Google Server Response: {error_msg}")
