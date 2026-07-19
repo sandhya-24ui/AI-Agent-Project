@@ -41,7 +41,7 @@ if st.button("Generate Complete Strategy"):
                 st.error("❌ API key empty! Please check your .env file or enable Demonstration Mode above.")
                 st.stop()
                 
-            url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={api_key.strip()}"
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key={api_key.strip()}"
             headers = {"Content-Type": "application/json"}
             
             for agent_name, instruction in agent_roles.items():
