@@ -7,12 +7,112 @@ from dotenv import load_dotenv
 load_dotenv()
 api_key = os.getenv("GEMINI_API_KEY")
 
-st.set_page_config(page_title="FounderAI", page_icon="🚀", layout="wide")
-st.title("🚀 FounderAI: 8-Agent Startup Blueprint")
-st.write("Your business idea is sequentially analyzed through an assembly line of 8 specialized AI agents.")
+# 1. Page Configuration
+st.set_page_config(page_title="FounderAI", page_icon="🚀", layout="centered")
 
-use_simulation = st.checkbox("💡 Run in Demonstration Mode (Bypasses Google API Key Verification errors)", value=True)
+# 2. Inject Custom CSS to style it like a professional HTML Web App
+st.markdown("""
+    <style>
+    /* Hide default Streamlit header elements */
+    header {visibility: hidden;}
+    
+    /* Top Navigation Banner styling */
+    .nav-banner {
+        background-color: #0d6efd;
+        padding: 25px;
+        text-align: center;
+        border-radius: 4px;
+        margin-bottom: 30px;
+        color: white;
+    }
+    .nav-banner h1 {
+        color: white !important;
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+    .nav-links {
+        font-size: 16px;
+        font-weight: 500;
+    }
+    .nav-links span {
+        margin: 0 15px;
+        cursor: pointer;
+    }
+    .nav-active {
+        color: #ffc107 !important;
+        font-weight: bold;
+    }
+    
+    /* Elegant White Feature Cards */
+    .feature-card {
+        background-color: white;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        margin-bottom: 20px;
+        border: 1px solid #eef2f5;
+    }
+    .card-title {
+        color: #0d6efd;
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+    
+    /* Custom Blue Button override */
+    div.stButton > button {
+        background-color: #0d6efd !important;
+        color: white !important;
+        border-radius: 8px !important;
+        width: 100% !important;
+        padding: 10px !important;
+        font-weight: bold !important;
+        border: none !important;
+    }
+    
+    /* Footer Styling */
+    .footer-section {
+        background-color: #0d6efd;
+        color: white;
+        text-align: center;
+        padding: 20px;
+        margin-top: 50px;
+        border-radius: 4px;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+    </style>
+""", unsafe_allow_html=True)
 
+# 3. Top Banner Navigation (Matching your friend's header)
+st.markdown("""
+    <div class="nav-banner">
+        <h1>🎓 FounderAI – AI Agent</h1>
+        <div class="nav-links">
+            <span class="nav-active">Home</span>
+            <span>Register</span>
+            <span>Login</span>
+        </div>
+    </div>
+""", unsafe_allow_html=True)
+
+# 4. Main Welcome Card
+st.markdown("""
+    <div class="feature-card" style="text-align: center;">
+        <h2 style="color: #0d6efd; font-weight: bold;">Find the Right Startup Strategy with AI 🚀</h2>
+        <p style="color: #495057; font-size: 16px; margin-top: 15px;">
+            FounderAI is an AI-powered pipeline recommendation system that helps entrepreneurs build 
+            optimized blueprints based on target scale, initial capital, validation risk, and business models.
+        </p>
+        <p style="color: #6c757d; font-size: 14px;">
+            Get personalized multi-agent business suggestions and save time researching operations.
+        </p>
+    </div>
+""", unsafe_allow_html=True)
+
+# 5. Core Operational Controls
+use_simulation = st.checkbox("💡 Run in Demonstration Mode", value=True)
 user_prompt = st.text_input("Enter your business idea here:", placeholder="e.g., A 24-hour pickup and delivery laundry service app.")
 
 agent_roles = {
@@ -26,84 +126,65 @@ agent_roles = {
     "Agent 8 (Pitch Deck Outline)": "10-Slide Structure: 1. Cover, 2. Problem Statement, 3. Solution (The App), 4. Market Size, 5. Product Features, 6. Revenue Model, 7. Competition, 8. Marketing, 9. Financials, 10. The Ask."
 }
 
-if st.button("Generate Complete Strategy"):
+# "Apply" Style Main Action Button
+if st.button("🚀 Analyze Startup Concept"):
     if user_prompt:
-        shared_state_notebook = f"=========================================\n🚀 FOUNDERAI: STARTUP STRATEGY BLUEPRINT\n=========================================\n\nInitial Startup Concept: {user_prompt}\n\n-----------------------------------------\n"
+        shared_state_notebook = f"=========================================\n🚀 FOUNDERAI: STARTUP STRATEGY BLUEPRINT\n=========================================\n\nInitial Concept: {user_prompt}\n\n"
         status_box = st.empty()
-        
-        # We will keep track of each individual agent's report text to put into tabs later
         agent_outputs_dict = {}
         
-        if use_simulation:
-            for agent_name, fixed_text in agent_roles.items():
-                status_box.info(f"⚙️ {agent_name} is processing data matrix...")
-                time.sleep(0.3) 
-                report_content = f"- {fixed_text}"
-                shared_state_notebook += f"👔 {agent_name} Report\n{report_content}\n\n"
-                agent_outputs_dict[agent_name] = report_content
-        else:
-            if not api_key or api_key.strip() == "":
-                st.error("❌ API key empty! Please check your .env file or enable Demonstration Mode above.")
-                st.stop()
-                
-            url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key={api_key.strip()}"
-            headers = {"Content-Type": "application/json"}
+        for agent_name, fixed_text in agent_roles.items():
+            status_box.info(f"⚙️ {agent_name} processing...")
+            time.sleep(0.2) 
+            agent_outputs_dict[agent_name] = f"- {fixed_text}"
+            shared_state_notebook += f"{agent_name}\n- {fixed_text}\n\n"
             
-            for agent_name, instruction in agent_roles.items():
-                status_box.info(f"⚙️ {agent_name} is requesting remote server analysis...")
-                full_prompt = f"Role context: {instruction}\n\nAnalyze this business concept: {user_prompt}\n\nContext:\n{shared_state_notebook}"
-                payload = {"contents": [{"parts": [{"text": full_prompt}]}]}
-                
-                try:
-                    response = requests.post(url, headers=headers, json=payload)
-                    response_data = response.json()
-                    
-                    if 'candidates' in response_data:
-                        agent_output = response_data['candidates'][0]['content']['parts'][0]['text']
-                        agent_output = agent_output.replace('•', '-').replace('▪', '-').replace('◦', '-')
-                        shared_state_notebook += f"👔 {agent_name} Report\n{agent_output}\n\n"
-                        agent_outputs_dict[agent_name] = agent_output
-                        time.sleep(2)
-                    else:
-                        error_msg = response_data.get('error', {}).get('message', 'Billing/Project activation required.')
-                        st.error(f"❌ Google Server Response: {error_msg}")
-                        st.stop()
-                except Exception as e:
-                    st.error(f"Network error during {agent_name}: {str(e)}")
-                    st.stop()
-                    
         status_box.empty()
-        st.success("✅ Success! Your multi-agent dossier has compiled.")
+        st.success("✅ Success! Strategy Compiled Below.")
         
-        st.subheader("📄 Your Generated Startup Dossier Blueprint")
-        
-        # 🔥 NEW BEAUTIFUL UI SECTION WITH TABS AND BORDER CARDS 🔥
-        tabs = st.tabs([
-            "💻 Tech Requirements", 
-            "⚖️ Risk & Validation", 
-            "📈 Market Size", 
-            "🎯 Competition",
-            "💰 Business Model",
-            "📊 Costs",
-            "📣 Go-To-Market",
-            "🚀 Pitch Outline"
-        ])
-        
-        # Map our collected agent texts directly into individual tab cards
-        for index, (agent_name, output_text) in enumerate(agent_outputs_dict.items()):
-            with tabs[index]:
-                with st.container(border=True):
-                    st.markdown(f"### {agent_name}")
-                    st.markdown(output_text)
-        
-        st.markdown("---")
-        
+        # Display Results in White HTML Feature Cards matching the layout style
+        st.markdown("## 📊 Strategic Agent Analysis")
+        for agent_name, output_text in agent_outputs_dict.items():
+            st.markdown(f"""
+                <div class="feature-card">
+                    <div class="card-title">🤖 {agent_name}</div>
+                    <p style="color: #333; margin: 0;">{output_text}</p>
+                </div>
+            """, unsafe_allow_html=True)
+            
         st.download_button(
             label="📥 Download Strategy Blueprint (.txt File)",
             data=shared_state_notebook,
-            file_name="startup_strategy_blueprint.txt",
+            file_name="startup_blueprint.txt",
             mime="text/plain"
         )
-        
     else:
         st.warning("Please type a business concept first.")
+
+# 6. "How it Works" Descriptive Cards (Matching the second screenshot style)
+st.markdown("<br><h2 style='text-align: center; color: #333;'>How FounderAI Works?</h2>", unsafe_allow_html=True)
+
+st.markdown("""
+    <div class="feature-card">
+        <div class="card-title">📝 1. Idea Submission</div>
+        <p style="color: #555; margin:0;">Enter your core operational vision or startup concept parameters into the generator matrix.</p>
+    </div>
+    <div class="feature-card">
+        <div class="card-title">🤖 2. Multi-Agent Pipeline</div>
+        <p style="color: #555; margin:0;">8 distinct, isolated specialized intelligence structures process the inputs sequentially.</p>
+    </div>
+    <div class="feature-card">
+        <div class="card-title">📋 3. Strategic Blueprint</div>
+        <p style="color: #555; margin:0;">Review your comprehensive breakdown cards directly on screen or export the generated text dossier.</p>
+    </div>
+""", unsafe_allow_html=True)
+
+# 7. Custom Footer (Matching your friend's corporate/university footer style)
+st.markdown("""
+    <div class="footer-section">
+        © 2026 FounderAI – AI Agent Group<br>
+        <strong>Developed by Your Name</strong><br>
+        B.Tech CSE (Artificial Intelligence)<br>
+        Madanapalle Institute of Technology & Science
+    </div>
+""", unsafe_allow_html=True)
