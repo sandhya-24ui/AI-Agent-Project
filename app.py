@@ -62,7 +62,7 @@ st.markdown("""
 }
 
 .main-title h1 {
-    color: white !important;
+    color: red;
 }
 
 .feature-card {
