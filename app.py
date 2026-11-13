@@ -239,7 +239,7 @@ with st.sidebar:
     )
     model = st.selectbox(
         "Gemini model",
-        ["gemini-2.5-flash", "gemini-2.0-flash"],
+        ["gemini-3.8-flash", "gemini-2.0-flash"],
         index=0,
         disabled=(mode != "Live Gemini AI"),
     )
