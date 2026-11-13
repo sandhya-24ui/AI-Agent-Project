@@ -46,58 +46,193 @@ AGENT_ROLES = [
 # 3. CUSTOM CSS
 # ---------------------------------------------------------
 
+# ---------------------------------------------------------
+# 3. CUSTOM CSS - PROFESSIONAL FOUNDERAI DESIGN
+# ---------------------------------------------------------
+
 st.markdown("""
 <style>
+
+/* Main page background */
 .stApp {
-    background-color: #f4f7fb;
+    background: #F3F6FC;
+    color: #172B4D;
 }
 
+/* Main content */
+.block-container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+/* All normal text */
+.stApp p,
+.stApp span,
+.stApp label,
+.stApp li,
+.stMarkdown,
+[data-testid="stWidgetLabel"] {
+    color: #172B4D !important;
+}
+
+/* Main title banner */
 .main-title {
-    background: linear-gradient(120deg, #0d6efd, #153e90);
-    padding: 30px;
-    border-radius: 15px;
-    color: white;
+    background: linear-gradient(120deg, #0755C9, #102A56);
+    padding: 35px 25px;
+    border-radius: 18px;
+    color: #FFFFFF !important;
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 5px 18px rgba(20, 50, 100, 0.15);
 }
 
-.main-title h1 {
-    color: red;
+.main-title h1,
+.main-title h3,
+.main-title p {
+    color: #FFFFFF !important;
 }
 
+/* Section headings */
+h1, h2, h3, h4 {
+    color: #12366B !important;
+    font-weight: 700 !important;
+}
+
+/* Input fields and text areas */
+.stTextInput input,
+.stTextArea textarea,
+.stNumberInput input {
+    background-color: #FFFFFF !important;
+    color: #172B4D !important;
+    border: 1.5px solid #B8C8DD !important;
+    border-radius: 9px !important;
+    font-size: 15px !important;
+}
+
+/* Placeholder text */
+.stTextInput input::placeholder,
+.stTextArea textarea::placeholder {
+    color: #64748B !important;
+    opacity: 1 !important;
+}
+
+/* Select boxes */
+[data-baseweb="select"] > div {
+    background-color: #FFFFFF !important;
+    color: #172B4D !important;
+    border: 1px solid #B8C8DD !important;
+    border-radius: 9px !important;
+}
+
+/* Selected dropdown text */
+[data-baseweb="select"] span {
+    color: #172B4D !important;
+}
+
+/* Dropdown menu */
+[data-baseweb="popover"],
+[data-baseweb="menu"] {
+    background-color: #FFFFFF !important;
+}
+
+[data-baseweb="menu"] * {
+    color: #172B4D !important;
+}
+
+/* Radio buttons */
+.stRadio label {
+    color: #172B4D !important;
+}
+
+/* Checkboxes */
+.stCheckbox label {
+    color: #172B4D !important;
+}
+
+/* Buttons */
+div.stButton > button {
+    background: linear-gradient(120deg, #0969DA, #123F91) !important;
+    color: #FFFFFF !important;
+    border: none !important;
+    border-radius: 10px !important;
+    padding: 12px 20px !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    min-height: 45px;
+    transition: 0.3s;
+}
+
+div.stButton > button:hover {
+    background: #073B85 !important;
+    color: #FFFFFF !important;
+    border: none !important;
+}
+
+/* Download button */
+div.stDownloadButton > button {
+    background: #087F5B !important;
+    color: #FFFFFF !important;
+    border-radius: 10px !important;
+    font-weight: bold !important;
+    border: none !important;
+}
+
+/* Feature and result cards */
 .feature-card {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    border: 1px solid #e5eaf2;
+    background: #FFFFFF;
+    padding: 22px;
+    border-radius: 13px;
+    border: 1px solid #DCE5F1;
     margin-bottom: 15px;
+    box-shadow: 0 3px 10px rgba(20, 50, 100, 0.06);
 }
 
+/* Agent titles */
 .agent-title {
-    color: #0d6efd;
+    color: #0755C9 !important;
     font-size: 19px;
     font-weight: bold;
 }
 
-div.stButton > button {
-    background-color: #0d6efd;
-    color: white;
-    border-radius: 8px;
-    font-weight: bold;
-    min-height: 45px;
+/* Expanders */
+[data-testid="stExpander"] {
+    background: #FFFFFF !important;
+    border: 1px solid #DCE5F1 !important;
+    border-radius: 10px !important;
 }
 
+[data-testid="stExpander"] summary {
+    color: #12366B !important;
+    font-weight: 600 !important;
+}
+
+/* Footer */
 .footer {
-    background-color: #153e90;
-    color: white;
+    background: #102A56;
+    color: #FFFFFF !important;
     text-align: center;
-    padding: 20px;
-    border-radius: 10px;
+    padding: 22px;
+    border-radius: 12px;
     margin-top: 35px;
 }
+
+.footer strong,
+.footer br {
+    color: #FFFFFF !important;
+}
+
+/* Success and warning messages */
+[data-testid="stAlert"] {
+    border-radius: 10px;
+}
+
+/* Divider */
+hr {
+    border-color: #D5DFED !important;
+}
+
 </style>
 """, unsafe_allow_html=True)
-
 # ---------------------------------------------------------
 # 4. HEADER
 # ---------------------------------------------------------
